@@ -2,262 +2,279 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Til Victoria ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Parisienne&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* --- GRUNNLEGGENDE STIL --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            background-color: #ffffff;
-        }
-
-        /* START-SKJERM (Feilmeldingen) */
-        #error-screen {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            z-index: 9999;
-            cursor: pointer;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #error-screen svg {
-            width: 50px;
-            height: 50px;
-            color: #d1d5db;
-            margin-bottom: 15px;
-        }
-
-        #error-screen h2 {
-            color: #4b5563;
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        #error-screen p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        /* HOVEDSIDE (Skjult til man klikker) */
-        #valentine-page {
-            display: none;
+            font-family: 'Fredoka', sans-serif; /* Søt, rund skrifttype */
+            background-color: #ffe6e9;
             height: 100vh;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffdde1 100%);
-            display: flex; /* Endres via JS */
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden; /* Hindrer scrolling */
+            display: flex;
             justify-content: center;
+            align-items: center;
+        }
+
+        /* --- SIDE 1: START (KONVOLUTT) --- */
+        #page-intro {
             text-align: center;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .card {
+        .envelope {
+            font-size: 100px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        #page-intro:hover .envelope {
+            transform: scale(1.1);
+        }
+
+        .click-hint {
+            color: #ff4d6d;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        /* --- SIDE 2: SPØRSMÅLET --- */
+        #page-question {
+            display: none; /* Skjult i starten */
             background: white;
-            padding: 3rem;
-            border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.15);
-            max-width: 450px;
-            width: 90%;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(255, 77, 109, 0.2);
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
             position: relative;
-        }
-
-        /* ANIMERT HJERTE */
-        .heart {
-            width: 60px;
-            height: 60px;
-            background: #ff4d6d;
-            position: relative;
-            transform: rotate(-45deg);
-            margin: 0 auto 50px;
-            animation: beat 0.8s infinite;
-        }
-        .heart::before, .heart::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            background: #ff4d6d;
-            border-radius: 50%;
-            position: absolute;
-        }
-        .heart::before { top: -30px; left: 0; }
-        .heart::after { left: 30px; top: 0; }
-
-        @keyframes beat {
-            0% { transform: scale(1) rotate(-45deg); }
-            15% { transform: scale(1.25) rotate(-45deg); }
-            100% { transform: scale(1) rotate(-45deg); }
+            z-index: 10;
         }
 
         h1 {
             color: #ff4d6d;
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            line-height: 1.3;
+            font-family: 'Parisienne', cursive; /* Elegant skrift */
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        .btn-container {
+        /* Bilde-ramme */
+        .img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            background-color: #fff0f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        /* Knappe-container */
+        .buttons {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 20px;
-            min-height: 60px;
+            gap: 20px; /* Mellomrom mellom knappene */
+            margin-top: 10px;
+            position: relative;
+            min-height: 60px; /* Sikrer plass */
         }
 
         button {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            padding: 15px 30px;
+            font-size: 1.1rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.1s;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            z-index: 100; /* Alltid øverst */
+        }
+        
+        #yesBtn:hover {
+            transform: scale(1.05);
+            background-color: #ff0054;
         }
 
         #noBtn {
-            background-color: #9ca3af;
-            color: white;
-            position: absolute; /* Gjør flukten mulig */
-            z-index: 1000;
+            background-color: #e9ecef;
+            color: #495057;
         }
 
-        /* EKSPLOSJON AV GLEDE */
-        #celebration {
+        /* --- SIDE 3: FEIRING --- */
+        #page-celebration {
             display: none;
             position: fixed;
-            inset: 0;
-            background: #ff0054;
-            z-index: 10000;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #ff4d6d;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            color: white;
+            align-items: center;
             text-align: center;
+            color: white;
+            z-index: 2000;
         }
 
-        .party-text {
+        .celebrate-text {
             font-size: 4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            animation: shake 0.2s infinite;
-            text-shadow: 5px 5px 0px #000;
+            font-weight: bold;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
         }
 
-        @keyframes shake {
-            0% { transform: translate(2px, 2px); }
-            50% { transform: translate(-2px, -2px); }
-            100% { transform: translate(2px, -2px); }
+        .sub-text {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            font-family: 'Parisienne', cursive;
         }
 
+        /* --- ANIMASJONER --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Konfetti partikler */
         .confetti {
-            position: fixed;
-            font-size: 2rem;
-            animation: fall 3s linear forwards;
-            pointer-events: none;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+            to { transform: translateY(100vh) rotate(720deg); }
         }
+
     </style>
 </head>
-<body onclick="init()">
+<body>
 
-    <div id="error-screen">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-        </svg>
-        <h2>This content is not available</h2>
-        <p>Tap anywhere to reload</p>
+    <div id="page-intro" onclick="startApp()">
+        <div class="envelope">💌</div>
+        <h2>Melding til Victoria</h2>
+        <p class="click-hint">(Trykk for å åpne)</p>
     </div>
 
-    <div id="valentine-page" style="display: none;">
-        <div class="card">
-            <div class="heart"></div>
-            <h1>Victoria, vil du være min valentine?</h1>
-            <div class="btn-container">
-                <button id="yesBtn" onclick="celebrate(event)">JA! ❤️</button>
-                <button id="noBtn" onmouseover="moveNo(this)" onclick="moveNo(this)">Nei</button>
-            </div>
+    <div id="page-question">
+        <div class="img-container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueWp4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpN762clOW7/giphy.gif" alt="Cute cat">
+        </div>
+        
+        <h1>Victoria, vil du være min valentine?</h1>
+        
+        <div class="buttons">
+            <button id="yesBtn" onclick="siJa()">JA, SELVFØLGELIG! ❤️</button>
+            <button id="noBtn" onmouseover="flyttKnapp()" onclick="flyttKnapp()">Nei</button>
         </div>
     </div>
 
-    <div id="celebration">
-        <div class="party-text">JAAAAAAA! 😍</div>
-        <h2 style="font-size: 2.5rem; margin: 20px 0;">VICTORIA + ALITO</h2>
-        <p style="font-size: 1.5rem;">Dette blir tidenes Valentinsdag! 🌹🍾💍</p>
-        <div style="font-size: 5rem; margin-top: 30px;">💃🕺✨🔥👑</div>
+    <div id="page-celebration">
+        <div class="celebrate-text">JAAAAAAA! 😍</div>
+        <p class="sub-text">Gjør deg klar for verdens beste dag!</p>
+        <p style="margin-top: 20px; font-size: 1.2rem;">Klem fra Alito 🦁</p>
     </div>
 
     <script>
-        let isStarted = false;
-
-        function init() {
-            if (isStarted) return;
-            isStarted = true;
-            
-            const error = document.getElementById('error-screen');
-            const page = document.getElementById('valentine-page');
-            
-            error.style.display = 'none';
-            page.style.display = 'flex';
-            setTimeout(() => { page.style.opacity = '1'; }, 50);
+        // Start appen (Overgang fra konvolutt til spørsmål)
+        function startApp() {
+            document.getElementById('page-intro').style.display = 'none';
+            document.getElementById('page-question').style.display = 'block';
         }
 
-        function moveNo(btn) {
-            // Flytter knappen til et tilfeldig sted på skjermen
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+        // Funksjon for å flytte NEI-knappen
+        function flyttKnapp() {
+            const btn = document.getElementById('noBtn');
+            const container = document.getElementById('page-question');
             
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-            
-            // Gjør JA-knappen større hver gang hun prøver "Nei"
-            const yes = document.getElementById('yesBtn');
-            const currentSize = parseFloat(window.getComputedStyle(yes).fontSize);
-            yes.style.fontSize = (currentSize + 2) + 'px';
-            yes.style.padding = (parseFloat(window.getComputedStyle(yes).paddingTop) + 2) + 'px ' + (parseFloat(window.getComputedStyle(yes).paddingLeft) + 5) + 'px';
+            // Gjør knappen absolutt posisjonert slik at den kan bevege seg fritt
+            btn.style.position = 'fixed'; 
+
+            // Hent skjermstørrelse og knappstørrelse
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const btnWidth = btn.offsetWidth;
+            const btnHeight = btn.offsetHeight;
+
+            // Regn ut ny posisjon, men trekk fra knappens størrelse så den ikke havner utenfor
+            // Math.random() gir et tall mellom 0 og 1
+            const randomX = Math.random() * (screenWidth - btnWidth - 40) + 20; // 20px margin
+            const randomY = Math.random() * (screenHeight - btnHeight - 40) + 20;
+
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+
+            // TROLLING: Gjør JA-knappen litt større for hver gang hun prøver å trykke nei
+            const yesBtn = document.getElementById('yesBtn');
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 2) + "px";
+            yesBtn.style.padding = "20px 40px"; // Gjør den fysisk større også
         }
 
-        function celebrate(event) {
-            event.stopPropagation(); // Hindrer init() i å kjøre igjen
-            document.getElementById('celebration').style.display = 'flex';
+        // Funksjon når hun sier JA
+        function siJa() {
+            // Skjul spørsmålet
+            document.getElementById('page-question').style.display = 'none';
             
-            // Regn av ting
+            // Vis feiringen
+            const celebration = document.getElementById('page-celebration');
+            celebration.style.display = 'flex';
+            
+            // Start konfetti-regn
+            startConfetti();
+            
+            // Disko-bakgrunn
             setInterval(() => {
-                const parts = ['❤️', '💖', '🌹', '✨', '🔥', '🥂', '💍', '🦁', '👑'];
-                const div = document.createElement('div');
-                div.className = 'confetti';
-                div.innerHTML = parts[Math.floor(Math.random() * parts.length)];
-                div.style.left = Math.random() * 100 + 'vw';
-                div.style.top = '-50px';
-                div.style.fontSize = (Math.random() * 30 + 20) + 'px';
-                document.body.appendChild(div);
+                const colors = ['#ff4d6d', '#ff0054', '#e01e37', '#c9184a'];
+                celebration.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }, 300);
+        }
+
+        // Lager masse konfetti
+        function startConfetti() {
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
                 
-                setTimeout(() => div.remove(), 3000);
-            }, 50);
-
-            // Skift farge på bakgrunnen vilt
-            setInterval(() => {
-                const colors = ['#ff0054', '#ff4d6d', '#ff758f', '#c9184a', '#800f2f'];
-                document.getElementById('celebration').style.background = colors[Math.floor(Math.random() * colors.length)];
-            }, 100);
+                // Tilfeldig plassering og farge
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.backgroundColor = ['#fff', '#ffd700', '#ffccd5'][Math.floor(Math.random() * 3)];
+                
+                document.getElementById('page-celebration').appendChild(confetti);
+            }
         }
     </script>
+
 </body>
 </html>
