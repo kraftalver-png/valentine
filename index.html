@@ -5,256 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Til Victoria ❤️</title>
     <style>
-        /* --- OPPSETT OG FONT --- */
+        /* --- GRUNNLEGGENDE STIL --- */
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden; /* Ingen scrolling */
-            font-family: 'Verdana', 'Segoe UI', sans-serif; /* Veldig tydelig font */
-            background: linear-gradient(135deg, #ffe6eb 0%, #ffc0cb 100%);
+            overflow: hidden;
+            font-family: 'Arial Black', sans-serif; /* Ekstra tydelig og fet skrift */
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            color: #d6336c;
         }
 
-        /* --- SVEVENDE HJERTER I BAKGRUNNEN --- */
-        .bg-heart {
-            position: absolute;
-            color: rgba(255, 77, 109, 0.15); /* Svake hjerter */
-            font-size: 3rem;
-            animation: floatBackground 6s infinite ease-in-out;
-            z-index: -1;
-        }
-
-        @keyframes floatBackground {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.1); }
-        }
-
-        /* --- CONTAINER FOR INNHOLD --- */
+        /* --- CONTAINER --- */
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px 20px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.3);
+            background: white;
+            padding: 50px 30px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
             width: 90%;
-            max-width: 500px;
-            position: relative;
-            border: 4px solid #fff0f3;
+            max-width: 450px;
+            z-index: 10;
+            border: 8px solid #ff4d6d;
         }
 
-        /* --- STORE TYDELIGE EMOJIER OG TEKST --- */
-        .big-emoji {
-            font-size: 100px;
-            display: block;
+        /* --- TEKST OG EMOJI --- */
+        .emoji-header {
+            font-size: 80px;
             margin-bottom: 20px;
-            animation: pulse 1.5s infinite;
+            display: block;
         }
 
         h1 {
+            color: #ff4d6d;
             font-size: 2.2rem;
-            line-height: 1.3;
-            margin-bottom: 30px;
-            color: #d6336c;
+            line-height: 1.2;
+            margin-bottom: 40px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 900; /* Ekstra fet tekst */
         }
 
-        p {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        /* --- KNAPPER --- */
-        .btn-container {
+        /* --- KNAPPENE --- */
+        .btn-wrapper {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            position: relative;
-            height: 80px; /* Plass til bevegelse */
+            align-items: center;
+            gap: 20px;
+            min-height: 100px;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 20px 40px;
+            font-size: 1.5rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 100px;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            text-transform: uppercase;
+            font-weight: 900;
+            transition: transform 0.1s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         #yesBtn {
-            background-color: #ff0054;
+            background-color: #ff4d6d;
             color: white;
-            z-index: 100;
-        }
-        
-        #yesBtn:hover {
-            transform: scale(1.1);
-            background-color: #d00045;
         }
 
         #noBtn {
-            background-color: #e9ecef;
-            color: #333;
-            position: absolute; /* Viktig for at den skal flykte */
-            transition: top 0.1s, left 0.1s; /* Rask bevegelse */
+            background-color: #6c757d;
+            color: white;
+            position: relative; /* Starter ved siden av, blir 'fixed' ved hover */
+            z-index: 999;
         }
 
-        /* --- START SIDE --- */
-        #screen-start {
-            cursor: pointer;
-        }
-        
-        #screen-start:hover .big-emoji {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        /* --- SKJULE SIDER --- */
-        .hidden {
-            display: none !important;
-        }
-
-        /* --- ANIMASJONER --- */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* --- FEIRINGSSKJERM --- */
+        #celebration {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: #ff0054;
+            z-index: 10000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
 
-        /* --- KONFETTI REGN --- */
-        .emoji-rain {
+        .rain {
             position: fixed;
             top: -50px;
-            font-size: 2rem;
-            animation: fallDown 3s linear forwards;
-            z-index: 9999;
+            font-size: 2.5rem;
+            animation: fall 3s linear forwards;
+            pointer-events: none;
         }
 
-        @keyframes fallDown {
+        @keyframes fall {
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="bg-heart" style="top: 10%; left: 10%;">❤️</div>
-    <div class="bg-heart" style="top: 20%; right: 20%; animation-delay: 1s;">💖</div>
-    <div class="bg-heart" style="bottom: 15%; left: 20%; animation-delay: 2s;">💕</div>
-    <div class="bg-heart" style="bottom: 10%; right: 10%; animation-delay: 0.5s;">💘</div>
-    <div class="bg-heart" style="top: 50%; left: 5%; animation-delay: 1.5s;">💝</div>
-    <div class="bg-heart" style="top: 50%; right: 5%; animation-delay: 2.5s;">💓</div>
-
-    <div id="screen-start" class="card" onclick="goToQuestion()">
-        <div class="big-emoji">💌</div>
-        <h1>Hei Victoria!</h1>
-        <p>Alito har sendt deg et viktig spørsmål...</p>
-        <p style="color: #ff0054; text-decoration: underline;">(Trykk her for å åpne)</p>
+    <div id="start-screen" class="card" onclick="showQuestion()" style="cursor: pointer;">
+        <span class="emoji-header">🎁</span>
+        <h1>Hei Victoria!<br>Du har fått en pakke...</h1>
+        <p style="font-size: 1.2rem; font-weight: bold; color: #ff4d6d;">Trykk for å se innholdet!</p>
     </div>
 
-    <div id="screen-question" class="card hidden">
-        <div class="big-emoji">🧸🌹</div>
-        <h1>VICTORIA,<br>VIL DU VÆRE MIN VALENTINE?</h1>
+    <div id="question-screen" class="card hidden">
+        <span class="emoji-header">💖🌹❤️</span>
+        <h1>Victoria, vil du være min valentine?</h1>
         
-        <div class="btn-container">
-            <button id="yesBtn" onclick="sheSaidYes()">JA! ❤️</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NEI 💔</button>
+        <div class="btn-wrapper">
+            <button id="yesBtn" onclick="finish()">JA! ❤️</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">NEI 💔</button>
         </div>
     </div>
 
-    <div id="screen-celebration" class="hidden">
-        <div class="big-emoji" style="font-size: 150px;">💍💏🥂</div>
-        <h1 style="font-size: 3rem; color: white; text-shadow: 2px 2px 10px #d00045;">JAAAAAAA!</h1>
-        <h2 style="color: white; font-size: 1.5rem; font-weight: bold;">VICTORIA + ALITO = SANT ❤️</h2>
-        <p style="color: white; font-size: 1.2rem; margin-top: 20px;">Gjør deg klar for en fantastisk dag! 🌹</p>
+    <div id="celebration">
+        <h1 style="font-size: 4rem; color: white;">JAAAAAAA! 😍</h1>
+        <h2 style="font-size: 2rem;">VICTORIA + ALITO ❤️</h2>
+        <div style="font-size: 6rem; margin-top: 30px;">💏💍🌹✨</div>
+        <p style="font-size: 1.5rem; margin-top: 20px;">Du har gjort meg kjempeglad!</p>
     </div>
 
     <script>
-        // Funksjon for å gå fra start til spørsmål
-        function goToQuestion() {
-            document.getElementById('screen-start').classList.add('hidden');
-            document.getElementById('screen-question').classList.remove('hidden');
+        // Vis spørsmålet når hun trykker på pakken
+        function showQuestion() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
         }
 
-        // Funksjon for å flytte NEI-knappen (holder seg ALLTID på skjermen)
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
+        // Funksjonen som flytter NEI-knappen
+        function moveNo() {
+            const btn = document.getElementById('noBtn');
             
-            // Hent størrelsen på skjermen og knappen
-            const screenW = window.innerWidth;
-            const screenH = window.innerHeight;
-            const btnW = noBtn.offsetWidth;
-            const btnH = noBtn.offsetHeight;
+            // Gjør knappen 'fixed' med en gang man prøver å røre den
+            btn.style.position = 'fixed';
 
-            // Regn ut trygge grenser (så den ikke går ut av kanten)
-            // Vi legger til 20px margin så den ikke klistrer seg helt til kanten
-            const maxX = screenW - btnW - 40;
-            const maxY = screenH - btnH - 40;
+            // Finn tilgjengelig plass på skjermen
+            const padding = 50;
+            const maxX = window.innerWidth - btn.offsetWidth - padding;
+            const maxY = window.innerHeight - btn.offsetHeight - padding;
 
-            const randomX = Math.random() * maxX + 20;
-            const randomY = Math.random() * maxY + 20;
+            // Generer nye koordinater
+            const randomX = Math.random() * maxX + (padding / 2);
+            const randomY = Math.random() * maxY + (padding / 2);
 
-            // Sett posisjonen til 'fixed' så den hopper ut av containeren og rundt på hele skjermen
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            // Flytt knappen lynraskt
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
 
-            // Gjør JA-knappen større for å irritere/hjelpe
-            const yesBtn = document.getElementById('yesBtn');
-            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-            yesBtn.style.fontSize = (currentSize + 2) + "px";
-            yesBtn.style.padding = "20px 50px"; 
+            // Gjør JA-knappen større for hver gang hun prøver NEI
+            const yes = document.getElementById('yesBtn');
+            const currentSize = parseFloat(window.getComputedStyle(yes).fontSize);
+            yes.style.fontSize = (currentSize + 2) + "px";
+            yes.style.padding = (currentSize + 5) + "px";
         }
 
-        // Funksjon når hun sier JA
-        function sheSaidYes() {
-            // Skjul alt annet
-            document.getElementById('screen-question').classList.add('hidden');
-            document.getElementById('noBtn').style.display = 'none'; // Fjern nei-knappen helt
-            
-            // Vis feiringen
-            const celebScreen = document.getElementById('screen-celebration');
-            celebScreen.classList.remove('hidden');
-            celebScreen.style.display = 'flex';
-            celebScreen.style.flexDirection = 'column';
-            celebScreen.style.justifyContent = 'center';
-            celebScreen.style.alignItems = 'center';
-            celebScreen.style.position = 'fixed';
-            celebScreen.style.inset = '0';
-            celebScreen.style.background = '#ff0054';
+        // Når hun trykker JA
+        function finish() {
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('noBtn').classList.add('hidden');
+            const celeb = document.getElementById('celebration');
+            celeb.style.display = 'flex';
 
-            // Start emojiregnet
-            startEmojiRain();
-        }
-
-        // Funksjon for å lage regn av emojier
-        function startEmojiRain() {
-            const emojis = ['❤️', '🌹', '💍', '🧸', '😍', '🥰', '🧨', '🥂', '💋'];
-            
-            // Lag en ny emoji hvert 100ms
+            // Start emoji-regn
             setInterval(() => {
-                const el = document.createElement('div');
-                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                el.classList.add('emoji-rain');
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Tilfeldig fart
-                document.body.appendChild(el);
-
-                // Fjern emojien etter den har falt ferdig for å spare minne
-                setTimeout(() => {
-                    el.remove();
-                }, 4000);
-            }, 100);
+                const emojis = ['❤️', '💖', '🌹', '✨', '💍', '🥂', '🔥'];
+                const e = document.createElement('div');
+                e.className = 'rain';
+                e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                e.style.left = Math.random() * 100 + 'vw';
+                e.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(e);
+                setTimeout(() => e.remove(), 3000);
+            }, 80);
         }
     </script>
 </body>
