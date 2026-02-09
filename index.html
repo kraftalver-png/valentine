@@ -2,279 +2,260 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Til Victoria ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Parisienne&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Til Victoria ❤️</title>
     <style>
-        /* --- GRUNNLEGGENDE STIL --- */
-        * {
-            box-sizing: border-box;
+        /* --- OPPSETT OG FONT --- */
+        body {
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: 'Fredoka', sans-serif; /* Søt, rund skrifttype */
-            background-color: #ffe6e9;
             height: 100vh;
-            overflow: hidden; /* Hindrer scrolling */
+            overflow: hidden; /* Ingen scrolling */
+            font-family: 'Verdana', 'Segoe UI', sans-serif; /* Veldig tydelig font */
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffc0cb 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        /* --- SIDE 1: START (KONVOLUTT) --- */
-        #page-intro {
             text-align: center;
-            cursor: pointer;
-            animation: float 3s ease-in-out infinite;
+            color: #d6336c;
         }
 
-        .envelope {
-            font-size: 100px;
-            margin-bottom: 20px;
-            display: inline-block;
-            transition: transform 0.3s;
+        /* --- SVEVENDE HJERTER I BAKGRUNNEN --- */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.15); /* Svake hjerter */
+            font-size: 3rem;
+            animation: floatBackground 6s infinite ease-in-out;
+            z-index: -1;
         }
 
-        #page-intro:hover .envelope {
-            transform: scale(1.1);
+        @keyframes floatBackground {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
         }
 
-        .click-hint {
-            color: #ff4d6d;
-            font-size: 1.2rem;
-            opacity: 0.7;
-        }
-
-        /* --- SIDE 2: SPØRSMÅLET --- */
-        #page-question {
-            display: none; /* Skjult i starten */
-            background: white;
-            padding: 40px;
+        /* --- CONTAINER FOR INNHOLD --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
             border-radius: 30px;
-            box-shadow: 0 15px 50px rgba(255, 77, 109, 0.2);
-            text-align: center;
-            max-width: 90%;
-            width: 400px;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.3);
+            width: 90%;
+            max-width: 500px;
             position: relative;
-            z-index: 10;
+            border: 4px solid #fff0f3;
+        }
+
+        /* --- STORE TYDELIGE EMOJIER OG TEKST --- */
+        .big-emoji {
+            font-size: 100px;
+            display: block;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
         }
 
         h1 {
-            color: #ff4d6d;
-            font-family: 'Parisienne', cursive; /* Elegant skrift */
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        /* Bilde-ramme */
-        .img-container {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-radius: 20px;
+            font-size: 2.2rem;
+            line-height: 1.3;
             margin-bottom: 30px;
-            background-color: #fff0f3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .img-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
+            color: #d6336c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900; /* Ekstra fet tekst */
         }
 
-        /* Knappe-container */
-        .buttons {
+        p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        /* --- KNAPPER --- */
+        .btn-container {
             display: flex;
             justify-content: center;
-            gap: 20px; /* Mellomrom mellom knappene */
-            margin-top: 10px;
+            gap: 15px;
             position: relative;
-            min-height: 60px; /* Sikrer plass */
+            height: 80px; /* Plass til bevegelse */
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 1.1rem;
+            padding: 15px 40px;
+            font-size: 1.3rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            text-transform: uppercase;
         }
 
         #yesBtn {
-            background-color: #ff4d6d;
+            background-color: #ff0054;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-            z-index: 100; /* Alltid øverst */
+            z-index: 100;
         }
         
         #yesBtn:hover {
-            transform: scale(1.05);
-            background-color: #ff0054;
+            transform: scale(1.1);
+            background-color: #d00045;
         }
 
         #noBtn {
             background-color: #e9ecef;
-            color: #495057;
+            color: #333;
+            position: absolute; /* Viktig for at den skal flykte */
+            transition: top 0.1s, left 0.1s; /* Rask bevegelse */
         }
 
-        /* --- SIDE 3: FEIRING --- */
-        #page-celebration {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #ff4d6d;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            z-index: 2000;
+        /* --- START SIDE --- */
+        #screen-start {
+            cursor: pointer;
+        }
+        
+        #screen-start:hover .big-emoji {
+            transform: scale(1.2) rotate(10deg);
         }
 
-        .celebrate-text {
-            font-size: 4rem;
-            font-weight: bold;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
-        }
-
-        .sub-text {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            font-family: 'Parisienne', cursive;
+        /* --- SKJULE SIDER --- */
+        .hidden {
+            display: none !important;
         }
 
         /* --- ANIMASJONER --- */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        /* --- KONFETTI REGN --- */
+        .emoji-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 2rem;
+            animation: fallDown 3s linear forwards;
+            z-index: 9999;
         }
 
-        /* Konfetti partikler */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #fff;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(720deg); }
+        @keyframes fallDown {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
     </style>
 </head>
 <body>
 
-    <div id="page-intro" onclick="startApp()">
-        <div class="envelope">💌</div>
-        <h2>Melding til Victoria</h2>
-        <p class="click-hint">(Trykk for å åpne)</p>
+    <div class="bg-heart" style="top: 10%; left: 10%;">❤️</div>
+    <div class="bg-heart" style="top: 20%; right: 20%; animation-delay: 1s;">💖</div>
+    <div class="bg-heart" style="bottom: 15%; left: 20%; animation-delay: 2s;">💕</div>
+    <div class="bg-heart" style="bottom: 10%; right: 10%; animation-delay: 0.5s;">💘</div>
+    <div class="bg-heart" style="top: 50%; left: 5%; animation-delay: 1.5s;">💝</div>
+    <div class="bg-heart" style="top: 50%; right: 5%; animation-delay: 2.5s;">💓</div>
+
+    <div id="screen-start" class="card" onclick="goToQuestion()">
+        <div class="big-emoji">💌</div>
+        <h1>Hei Victoria!</h1>
+        <p>Alito har sendt deg et viktig spørsmål...</p>
+        <p style="color: #ff0054; text-decoration: underline;">(Trykk her for å åpne)</p>
     </div>
 
-    <div id="page-question">
-        <div class="img-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueWp4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpN762clOW7/giphy.gif" alt="Cute cat">
-        </div>
+    <div id="screen-question" class="card hidden">
+        <div class="big-emoji">🧸🌹</div>
+        <h1>VICTORIA,<br>VIL DU VÆRE MIN VALENTINE?</h1>
         
-        <h1>Victoria, vil du være min valentine?</h1>
-        
-        <div class="buttons">
-            <button id="yesBtn" onclick="siJa()">JA, SELVFØLGELIG! ❤️</button>
-            <button id="noBtn" onmouseover="flyttKnapp()" onclick="flyttKnapp()">Nei</button>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="sheSaidYes()">JA! ❤️</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NEI 💔</button>
         </div>
     </div>
 
-    <div id="page-celebration">
-        <div class="celebrate-text">JAAAAAAA! 😍</div>
-        <p class="sub-text">Gjør deg klar for verdens beste dag!</p>
-        <p style="margin-top: 20px; font-size: 1.2rem;">Klem fra Alito 🦁</p>
+    <div id="screen-celebration" class="hidden">
+        <div class="big-emoji" style="font-size: 150px;">💍💏🥂</div>
+        <h1 style="font-size: 3rem; color: white; text-shadow: 2px 2px 10px #d00045;">JAAAAAAA!</h1>
+        <h2 style="color: white; font-size: 1.5rem; font-weight: bold;">VICTORIA + ALITO = SANT ❤️</h2>
+        <p style="color: white; font-size: 1.2rem; margin-top: 20px;">Gjør deg klar for en fantastisk dag! 🌹</p>
     </div>
 
     <script>
-        // Start appen (Overgang fra konvolutt til spørsmål)
-        function startApp() {
-            document.getElementById('page-intro').style.display = 'none';
-            document.getElementById('page-question').style.display = 'block';
+        // Funksjon for å gå fra start til spørsmål
+        function goToQuestion() {
+            document.getElementById('screen-start').classList.add('hidden');
+            document.getElementById('screen-question').classList.remove('hidden');
         }
 
-        // Funksjon for å flytte NEI-knappen
-        function flyttKnapp() {
-            const btn = document.getElementById('noBtn');
-            const container = document.getElementById('page-question');
+        // Funksjon for å flytte NEI-knappen (holder seg ALLTID på skjermen)
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
             
-            // Gjør knappen absolutt posisjonert slik at den kan bevege seg fritt
-            btn.style.position = 'fixed'; 
+            // Hent størrelsen på skjermen og knappen
+            const screenW = window.innerWidth;
+            const screenH = window.innerHeight;
+            const btnW = noBtn.offsetWidth;
+            const btnH = noBtn.offsetHeight;
 
-            // Hent skjermstørrelse og knappstørrelse
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            const btnWidth = btn.offsetWidth;
-            const btnHeight = btn.offsetHeight;
+            // Regn ut trygge grenser (så den ikke går ut av kanten)
+            // Vi legger til 20px margin så den ikke klistrer seg helt til kanten
+            const maxX = screenW - btnW - 40;
+            const maxY = screenH - btnH - 40;
 
-            // Regn ut ny posisjon, men trekk fra knappens størrelse så den ikke havner utenfor
-            // Math.random() gir et tall mellom 0 og 1
-            const randomX = Math.random() * (screenWidth - btnWidth - 40) + 20; // 20px margin
-            const randomY = Math.random() * (screenHeight - btnHeight - 40) + 20;
+            const randomX = Math.random() * maxX + 20;
+            const randomY = Math.random() * maxY + 20;
 
-            btn.style.left = randomX + 'px';
-            btn.style.top = randomY + 'px';
+            // Sett posisjonen til 'fixed' så den hopper ut av containeren og rundt på hele skjermen
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
 
-            // TROLLING: Gjør JA-knappen litt større for hver gang hun prøver å trykke nei
+            // Gjør JA-knappen større for å irritere/hjelpe
             const yesBtn = document.getElementById('yesBtn');
             let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
             yesBtn.style.fontSize = (currentSize + 2) + "px";
-            yesBtn.style.padding = "20px 40px"; // Gjør den fysisk større også
+            yesBtn.style.padding = "20px 50px"; 
         }
 
         // Funksjon når hun sier JA
-        function siJa() {
-            // Skjul spørsmålet
-            document.getElementById('page-question').style.display = 'none';
+        function sheSaidYes() {
+            // Skjul alt annet
+            document.getElementById('screen-question').classList.add('hidden');
+            document.getElementById('noBtn').style.display = 'none'; // Fjern nei-knappen helt
             
             // Vis feiringen
-            const celebration = document.getElementById('page-celebration');
-            celebration.style.display = 'flex';
-            
-            // Start konfetti-regn
-            startConfetti();
-            
-            // Disko-bakgrunn
-            setInterval(() => {
-                const colors = ['#ff4d6d', '#ff0054', '#e01e37', '#c9184a'];
-                celebration.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            }, 300);
+            const celebScreen = document.getElementById('screen-celebration');
+            celebScreen.classList.remove('hidden');
+            celebScreen.style.display = 'flex';
+            celebScreen.style.flexDirection = 'column';
+            celebScreen.style.justifyContent = 'center';
+            celebScreen.style.alignItems = 'center';
+            celebScreen.style.position = 'fixed';
+            celebScreen.style.inset = '0';
+            celebScreen.style.background = '#ff0054';
+
+            // Start emojiregnet
+            startEmojiRain();
         }
 
-        // Lager masse konfetti
-        function startConfetti() {
-            for (let i = 0; i < 100; i++) {
-                let confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                
-                // Tilfeldig plassering og farge
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                confetti.style.backgroundColor = ['#fff', '#ffd700', '#ffccd5'][Math.floor(Math.random() * 3)];
-                
-                document.getElementById('page-celebration').appendChild(confetti);
-            }
+        // Funksjon for å lage regn av emojier
+        function startEmojiRain() {
+            const emojis = ['❤️', '🌹', '💍', '🧸', '😍', '🥰', '🧨', '🥂', '💋'];
+            
+            // Lag en ny emoji hvert 100ms
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                el.classList.add('emoji-rain');
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Tilfeldig fart
+                document.body.appendChild(el);
+
+                // Fjern emojien etter den har falt ferdig for å spare minne
+                setTimeout(() => {
+                    el.remove();
+                }, 4000);
+            }, 100);
         }
     </script>
-
 </body>
 </html>
