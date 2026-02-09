@@ -3,155 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Til Victoria</title>
+    <title>System Error</title>
     <style>
-        body {
-            background-color: #ffe6e6;
-            font-family: 'Arial', sans-serif;
+        /* FAKE ERROR SCREEN STYLES */
+        #error-screen {
+            background-color: white;
+            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            text-align: center;
+            cursor: pointer;
         }
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 400px;
+        /* MAIN VALENTINE STYLES (Hidden at start) */
+        #main-content {
+            display: none;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            min-height: 100vh;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: inline-block;
+            margin-top: 50px;
+            max-width: 90%;
             position: relative;
         }
 
-        h1 {
-            color: #ff4d6d;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+        h1 { color: #d63384; font-size: 2.5rem; }
+
+        .image-box img {
+            width: 250px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 5px solid #ff4d6d;
         }
 
-        .gif-container img {
-            width: 200px;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+        .btn-group {
+            margin-top: 30px;
+            height: 100px; /* Lager plass til at knappen kan hoppe */
         }
 
         button {
-            padding: 12px 25px;
-            font-size: 1.1rem;
+            padding: 15px 40px;
+            font-size: 1.5rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
         #yesBtn {
-            background-color: #ff4d6d;
+            background-color: #28a745;
             color: white;
-            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
 
         #noBtn {
-            background-color: #adb5bd;
+            background-color: #dc3545;
             color: white;
-            position: absolute; /* Viktig for at den skal kunne flytte seg */
+            position: absolute; /* Gjør at den kan flytte seg fritt */
+            z-index: 999;
         }
 
-        /* Overdreven glede-styling */
-        .celebration {
+        /* CELEBRATION MODE */
+        #celebration {
             display: none;
-            animation: pop 0.5s ease-out;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ff0054;
+            color: white;
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: flash 0.5s infinite;
         }
 
-        @keyframes pop {
-            0% { transform: scale(0.5); }
-            100% { transform: scale(1); }
+        @keyframes flash {
+            0% { background-color: #ff0054; }
+            50% { background-color: #ff4d6d; }
+            100% { background-color: #ff0054; }
         }
 
-        .heart {
-            color: #ff4d6d;
-            font-size: 3rem;
-            display: block;
-            margin-top: 10px;
+        .floating-heart {
+            position: fixed;
+            font-size: 2rem;
+            animation: floatUp 3s linear forwards;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainContainer">
-        <div id="askSection">
-            <div class="gif-container">
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueWp4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpN762clOW7/giphy.gif" alt="Cute cat">
+    <div id="error-screen" onclick="revealValentine()">
+        <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" width="50" style="opacity: 0.5; margin-bottom: 20px;">
+        <p style="font-size: 1.2rem; color: #666;">This content is not available</p>
+        <p style="font-size: 0.8rem; color: #999;">Click to try again</p>
+    </div>
+
+    <div id="main-content">
+        <div class="card">
+            <div class="image-box">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueWp4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4eXF4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpN762clOW7/giphy.gif" alt="Cute gif">
             </div>
             <h1>Victoria, vil du være min valentine?</h1>
-            <div class="buttons">
-                <button id="yesBtn" onclick="celebrate()">JA! ❤️</button>
-                <button id="noBtn" onmouseover="moveButton()">Nei</button>
+            
+            <div class="btn-group">
+                <button id="yesBtn" onclick="superCelebrate()">JA! 😍</button>
+                <button id="noBtn" onmouseover="moveNoButton()">Nei</button>
             </div>
-        </div>
-
-        <div id="celebrationSection" class="celebration">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmc1bmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/TdfyKrN7HGTIY/giphy.gif" alt="Happy dance">
-            <h1 style="font-size: 2.5rem;">JAAAAAAA! 😍</h1>
-            <p>Du har gjort Alito til verdens lykkeligste! 🥂🌹</p>
-            <span class="heart">❤️❤️❤️❤️❤️</span>
         </div>
     </div>
 
+    <div id="celebration">
+        <h1 style="font-size: 5rem; text-shadow: 4px 4px black;">JAAAAAAA! ❤️</h1>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmc1bmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/TdfyKrN7HGTIY/giphy.gif" width="300">
+        <h2 style="font-size: 2rem;">Alito er verdens lykkeligste mann!!!</h2>
+        <p style="font-size: 1.5rem;">Forbered deg på tidenes dag, Victoria! 🌹🥂💍</p>
+        <div id="heart-rain"></div>
+    </div>
+
     <script>
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            // Regner ut tilfeldig posisjon innenfor skjermen
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        // Funksjon for å fjerne feilmeldingen og vise siden
+        function revealValentine() {
+            document.getElementById('error-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+        // Gjør det umulig å trykke "Nei"
+        function moveNoButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
             
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
 
-        function celebrate() {
-            document.getElementById('askSection').style.display = 'none';
-            document.getElementById('celebrationSection').style.display = 'block';
-            document.body.style.backgroundColor = '#ffb3c1';
+        // Den overdrevent glade feiringen
+        function superCelebrate() {
+            document.getElementById('celebration').style.display = 'flex';
             
-            // Litt ekstra konfetti-effekt i konsollen eller bare masse hjerter
-            for (let i = 0; i < 20; i++) {
-                createHeart();
-            }
+            // Regn av hjerter
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = ['❤️', '💖', '💘', '✨', '🌹'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 3000);
+            }, 100);
         }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.style.position = 'fixed';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '100vh';
-            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
-            heart.style.animation = `float ${Math.random() * 2 + 3}s linear forwards`;
-            document.body.appendChild(heart);
-        }
-
-        // Enkel animasjon for flytende hjerter
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes float {
-                to {
-                    transform: translateY(-110vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
